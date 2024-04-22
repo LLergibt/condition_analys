@@ -102,7 +102,7 @@ class DB():
         param = param.fetchone()[0]
         param_two = self.cur.execute(f'SELECT data from param_two_suggestions WHERE rate={param_two_rate}')
         param_two = param_two.fetchone()[0]
-        return f"{total}. {param}. {param_two}"
+        return f"{total}\n\n\n{param}\n\n\n{param_two}\n"
 
 
 

@@ -14,7 +14,7 @@ BOT_TOKEN = os.environ.get('BOT_TOKEN')
 async def start(update, context):
     bot = context.bot
     
-    await bot.send_message(chat_id=update.effective_chat.id, text="Привет, я могу помочь тебе лучше понять себя. Ты можешь контроллировать меня следующими командами: \n\n /register_course - начать курс \n /continue - продолжить отвечать на ежедневные вопросы \n /show_progress - покажет прогресс прохождения(сколько дней осталось, предварительная оценка состояния) \n /stop - сбросить текущий прогресс", parse_mode="markdown")
+    await bot.send_message(chat_id=update.effective_chat.id, text="*Привет, я могу помочь тебе лучше понять себя*. \nТы можешь контроллировать меня следующими командами: \n\n /register_course - начать курс \n /continue - продолжить отвечать на ежедневные вопросы _ \n /stop - сбросить текущий прогресс", parse_mode="markdown")
 async def echo(update, context):
     bot = context.bot
     if 'have_chat' in context.user_data and context.user_data['have_chat']:
@@ -44,12 +44,12 @@ async def echo(update, context):
             await bot.send_message(chat_id=update.effective_chat.id, text="Спасибо за твои ответы. На сегодня это все")
             message = db.if_last(update.message.from_user.id)
             if message != "":
-                await bot.send_message(chat_id=update.effective_chat.id, text="Курс окончен. Сейчас вам будет предоставлны рекомендации\n")
+                await bot.send_message(chat_id=update.effective_chat.id, text="*Поздравляю, курс окончен*\n**Сейчас вам будет предоставлны рекомендации**\n", parse_mode="markdown")
 
 
                 await bot.send_document(chat_id=update.effective_chat.id, document="./loading.mp4")
                 time.sleep(3)
-                await bot.send_message(chat_id=update.effective_chat.id, text=message)
+                await bot.send_message(chat_id=update.effective_chat.id, text=message, parse_mode="markdown")
     else:
         await bot.send_message(chat_id=update.effective_chat.id, text="Что вы желаете сделать? Используете /start для списка команд")
 
@@ -72,7 +72,7 @@ async def start_daily_conversation(update, context):
     bot = context.bot
     if isRegistred:
         if db.if_last(update.message.from_user.id):
-            await bot.send_message(chat_id=update.effective_chat.id, text="Курс завершен! \n Используете /stop, если хотите сбросить прогресс")
+            await bot.send_message(chat_id=update.effective_chat.id, text="*Курс завершен!* \n Используете /stop, если хотите сбросить прогресс")
             return
 
         context.user_data['question_number'] = 0
